@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package greet;
+
+option java_package = "com.proto.greet";
+option java_multiple_files = true;
+
+message Greeting {
+    string first_name = 1;
+    string last_name = 2;
+}
+
+message GreetRequest {
+    Greeting greeting = 1;
+}
+
+message GreetResponse {
+    string result = 1;
+}
+
+message GreetSSRequest {
+    Greeting greeting = 1;
+}
+
+message GreetSSResponse {
+    string result = 1;
+}
+
+message GreetCSRequest {
+    Greeting greeting = 1;
+}
+
+message GreetCSResponse {
+    string result = 1;
+}
+
+message GreetBDRequest {
+    Greeting greeting = 1;
+}
+
+message GreetBDResponse {
+    string result = 1;
+}
+
+service GreetService {
+    // Unary RPC
+    rpc Greet(GreetRequest) returns (GreetResponse) {};
+
+    // Server Streaming RPC
+    rpc GreetSS(GreetSSRequest) returns (stream GreetSSResponse) {};
+
+    // Client Streaming RPC
+    rpc GreetCS(stream GreetCSRequest) returns (GreetCSResponse) {};
+
+    // Bidirectional Streaming RPC
+    rpc GreetBD(stream GreetBDRequest) returns (stream GreetBDResponse) {};
+}

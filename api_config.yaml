@@ -1,0 +1,23 @@
+type: google.api.Service
+config_version: 3
+
+#
+# Name of the service configuration.
+#
+name: greet.endpoints.<MY_PROJECT_ID>.cloud.goog
+
+#
+# API title to appear in the user interface (Google Cloud Console).
+#
+title: Greet Server API
+apis:
+- name: greet.GreetService
+
+#
+# API usage restrictions.
+#
+usage:
+  rules:
+  # Bidirectional Streaming RPC methods can be called without an API Key.
+  - selector: greet.GreetService.GreetBD
+    allow_unregistered_calls: true

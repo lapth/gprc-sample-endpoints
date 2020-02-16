@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: esp-grpc-greet
+spec:
+  ports:
+  - port: 80
+    targetPort: 9000
+    protocol: TCP
+    name: http2
+  selector:
+    app: esp-grpc-greet
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: esp-grpc-greet
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: esp-grpc-greet
+    spec:
+      containers:
+      - name: esp
+        image: gcr.io/endpoints-release/endpoints-runtime:1
+        args: [
+          "--http2_port=9000",
+          "--backend=grpc://127.0.0.1:30000",
+          "--service=greet.endpoints.<MY_PROJECT_ID>.cloud.goog",
+          "--rollout_strategy=managed",
+        ]
+        ports:
+          - containerPort: 9000
+      - name: java-grpc-greet
+        image: gcr.io/<MY_PROJECT_ID>/grpc-server:v4.0
+        ports:
+          - containerPort: 30000
